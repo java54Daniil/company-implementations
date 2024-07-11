@@ -9,4 +9,9 @@ public class CompanyMapsImplTest extends CompanyTest {
 		company = new CompanyMapsImpl();
 		super.setCompany();
 	}
+
+	@Override
+	protected Company getEmptyCompany() {
+		return new CompanyMapsImpl();
+	}
 }

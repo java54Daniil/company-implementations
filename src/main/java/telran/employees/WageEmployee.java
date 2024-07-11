@@ -1,10 +1,12 @@
 package telran.employees;
 
+import org.json.JSONObject;
+
 public class WageEmployee extends Employee {
 	private int hours;
-	private int wage;//one hours salary cost
-	public WageEmployee(long id, int basicSalary, String deepartment, int hours, int wage) {
-		super(id, basicSalary, deepartment);
+	private int wage; //one hour salary cost
+	public WageEmployee(long id, int basicSalary, String department, int hours, int wage) {
+		super(id, basicSalary, department);
 		this.hours = hours;
 		this.wage = wage;
 	}
@@ -24,4 +26,14 @@ public class WageEmployee extends Employee {
 	public int computeSalary() {
 		return super.computeSalary() + wage * hours;
 	}
+	@Override
+    protected void fillJSONObject(JSONObject jsonObject) {
+    	//TODO
+    }
+    @Override
+    protected void fillEmployee(JSONObject jsonObject) {
+    	//TODO
+    }
+  
+	
 }
