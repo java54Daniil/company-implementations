@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import telran.employees.*;
@@ -44,7 +43,6 @@ void setCompany() {
 		 company.addEmployee(empl);
 	 };
 }
-
 	@Test
 	void testAddEmployee()
 	{
@@ -92,6 +90,9 @@ void setCompany() {
 		String [] expected = {DEPARTMENT1, DEPARTMENT2};
 		Arrays.sort(expected);
 		assertArrayEquals(expected, company.getDepartments());
+		expected = new String[] {DEPARTMENT1};
+		company.removeEmployee(ID3);
+		assertArrayEquals(expected, company.getDepartments());
 	}
 	@Test
 	void testGetManagersWithMostFactor() {
@@ -104,6 +105,32 @@ void setCompany() {
 			company.addEmployee(mng);
 		}
 		assertArrayEquals(managersExpected, company.getManagersWithMostFactor());
+		company.removeEmployee(ID4);
+		company.removeEmployee(ID5);
+		company.removeEmployee(ID6);
+		company.removeEmployee(ID7);
+		assertArrayEquals(new Manager[] {(Manager) empl2}, company.getManagersWithMostFactor());
+		company.removeEmployee(ID2);
+		assertArrayEquals(new Manager[0],company.getManagersWithMostFactor());
+		
 	}
+	@Test
+		void iteratorRemoveTest() {
+			Iterator<Employee> it = company.iterator();
+			while(it.hasNext()) {
+				Employee empl = it.next();
+				if(empl.computeSalary() > 2000) {
+					it.remove();
+				}
+			}
+			assertThrowsExactly(IllegalStateException.class, it::remove);
+			assertThrowsExactly(NoSuchElementException.class,
+					() -> company.removeEmployee(ID2));
+			assertThrowsExactly(NoSuchElementException.class,
+					() -> company.removeEmployee(ID3));
+			assertEquals(0, company.getDepartmentBudget(DEPARTMENT2));
+			assertArrayEquals(new Manager[0], company.getManagersWithMostFactor());
+			assertArrayEquals(new String[] {DEPARTMENT1}, company.getDepartments());
+		}
 
 }
